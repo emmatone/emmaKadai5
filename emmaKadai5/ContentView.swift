@@ -19,7 +19,7 @@ struct ContentView: View {
     @State var isAlert: Bool = false
     @State var alertText: String = ""
     //アラートと計算処理
-    func AlertCalc() {
+    func alertCalc() {
         // 計算結果を0に戻す
         resultText = "0.0"
         // 割られる数がDoubleに変換できない時（数字じゃない、文字が入っていない場合）
@@ -69,16 +69,13 @@ struct ContentView: View {
             }
             .frame(width: 260)
             //処理
-            Button(action: AlertCalc){
+            Button(action: alertCalc){
                 Text("計算する")
                     .padding(10)
                     .foregroundColor(.white)
                     .background(kadaiColor)
                     .cornerRadius(20)
             }
-            .alert("課題5", isPresented: $isAlert) {
-                Button("OK", action: {})
-            } message: { Text(alertText) }
             //出力
             Text(resultText)
                 .font(.title)
@@ -87,6 +84,13 @@ struct ContentView: View {
                 .background(kadaiColor .opacity(0.2))
             Spacer()
         }
+        .alert(
+            "課題5",
+            isPresented: $isAlert,
+            presenting: alertText,
+            actions: { _ in Button("OK", action: {}) },
+            message: { alertText in Text(alertText) }
+        )
     }
 }
 
